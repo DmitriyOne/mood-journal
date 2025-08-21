@@ -1,0 +1,14 @@
+{
+  "material-icon-theme.activeIconPack": "nest",
+  "cSpell.words": [
+    "dotenv",
+    "dpage",
+    "healthcheck",
+    "isready",
+    "pgadmin",
+    "pgcrypto",
+    "pgdata",
+    "pids",
+    "plpgsql"
+  ]
+}
