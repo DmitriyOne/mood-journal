@@ -1,0 +1,58 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    restart: always
+    env_file:
+      - ./database/.env.db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d journal_mood_db"]
+      interval: 5s
+      timeout: 2s
+      retries: 20
+    networks:
+      - journal-mood-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./ops/Dockerfile
+    container_name: nest_backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/app
+      - ./database/migrations:/database/migrations
+    networks:
+      - journal-mood-network
+  
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4:9.6
+    restart: always
+    env_file:
+      - ./database/.env.pgadmin
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - journal-mood-network
+
+volumes:
+  pgdata:
+  pgadmin-data:
+
+networks:
+  journal-mood-network:
+    driver: bridge
