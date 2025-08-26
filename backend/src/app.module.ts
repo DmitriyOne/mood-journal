@@ -5,6 +5,7 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { getEnvFilePath } from './utils';
 import { validateEnvConfig } from './config';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { validateEnvConfig } from './config';
       validate: validateEnvConfig,
     }),
     DatabaseModule,
+    TagsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
