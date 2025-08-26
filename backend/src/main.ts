@@ -1,6 +1,10 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Logger,
+  ValidationPipe,
+} from '@nestjs/common';
 import { PgExceptionFilter } from './filters';
 import { ConfigService } from '@nestjs/config';
 import { TEnvConfig } from './schema';
@@ -12,6 +16,13 @@ async function bootstrap() {
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PgExceptionFilter(httpAdapter));
+
+  app.useGlobalPipes(
+    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
+  );
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
+  app.setGlobalPrefix('api/v1');
 
   const configService = app.get(ConfigService<TEnvConfig>);
 
