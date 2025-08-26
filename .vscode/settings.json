@@ -1,6 +1,7 @@
 {
   "material-icon-theme.activeIconPack": "nest",
   "cSpell.words": [
+    "Dima",
     "dotenv",
     "dpage",
     "healthcheck",
@@ -9,6 +10,7 @@
     "pgcrypto",
     "pgdata",
     "pids",
-    "plpgsql"
+    "plpgsql",
+    "treeify"
   ]
 }
