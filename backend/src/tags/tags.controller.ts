@@ -16,6 +16,7 @@ import { UpdateTagDto } from './dto/update-tag.dto';
 export class TagsController {
   constructor(private readonly tagsService: TagsService) {}
 
+  // TODO: get user id in user decorator
   @Post()
   create(@Body() createTagDto: CreateTagDto) {
     return this.tagsService.create(createTagDto);
@@ -31,6 +32,7 @@ export class TagsController {
     return this.tagsService.findOne(id);
   }
 
+  // TODO: to check user id before updating tag
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -39,8 +41,10 @@ export class TagsController {
     return this.tagsService.update(id, updateTagDto);
   }
 
+  // TODO: to check user id before deleting tag
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
+    // TODO: return just message
     return this.tagsService.remove(id);
   }
 }
